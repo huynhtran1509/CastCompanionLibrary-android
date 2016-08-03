@@ -34,7 +34,7 @@ apply plugin: 'com.android.library'
 
 ext {
     supportLibVersion = '23.2.1'
-    versionName = '2.8.3'
+    versionName = '2.8.3.p1'
 }
 
 android {

@@ -2405,10 +2405,9 @@ public class VideoCastManager extends BaseCastManager
             }
             final MediaMetadata mm = info.getMetadata();
             MediaMetadataCompat currentMetadata = mMediaSessionCompat.getController().getMetadata();
-            MediaMetadataCompat.Builder newBuilder = currentMetadata == null
+            MediaMetadataCompat.Builder newBuilder = (currentMetadata == null
                     ? new MediaMetadataCompat.Builder()
-                    : new MediaMetadataCompat.Builder(currentMetadata);
-            MediaMetadataCompat metadata = newBuilder
+                    : new MediaMetadataCompat.Builder(currentMetadata))
                     // used in lock screen for pre-lollipop
                     .putString(MediaMetadataCompat.METADATA_KEY_TITLE,
                             mm.getString(MediaMetadata.KEY_TITLE))
@@ -2423,9 +2422,7 @@ public class VideoCastManager extends BaseCastManager
                     .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE,
                             mm.getString(MediaMetadata.KEY_SUBTITLE))
                     .putLong(MediaMetadataCompat.METADATA_KEY_DURATION,
-                            info.getStreamDuration())
-                    .build();
-            mMediaSessionCompat.setMetadata(metadata);
+                            info.getStreamDuration());
 
             Uri iconUri = mm.hasImages() ? mm.getImages().get(0).getUrl() : null;
             if (iconUri == null) {
@@ -2453,6 +2450,7 @@ public class VideoCastManager extends BaseCastManager
                         mMediaSessionIconFetchTask = null;
                     }
                 };
+                mMediaSessionCompat.setMetadata(newBuilder.build());
                 mMediaSessionIconFetchTask.execute(iconUri);
             }
 
